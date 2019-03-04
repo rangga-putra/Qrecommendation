@@ -56,7 +56,6 @@ studyfields.each do |item|
       (v * score['bahasa_indonesia']).round(2)
     end
   end
-  item['total'] = item['nilai'].sum { |_k, v| v }
 end
 
 puts studyfields
