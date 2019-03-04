@@ -7,17 +7,17 @@ def getdata(params)
   JSON.parse(res.body)
 end
 
-def aggregatedata(assessments)
-  result = {}
+def aggregatedata(assessments, listofstudyfields)
+  fields = listofstudyfields[0]['study_field_list']
+  score = Hash[fields.map { |x| [x, 0] }]
+
   assessments.each do |assessment|
     assessment['nilai'].each do |k, v|
-      result[k] = result[k].to_i + v
+      score[k] = score[k].to_i + v
     end
   end
 
-  result['user_id'] = assessments.first['userid']
-
-  result.update(result) do |k, v|
-    k.include?('id') ? v : (v / assessments.length.to_f).round(2)
+  score.update(score) do |k, v|
+    k.include?('user_id') ? v : (v / assessments.length.to_f).round(2)
   end
 end
